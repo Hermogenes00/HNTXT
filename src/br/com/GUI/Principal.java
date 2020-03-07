@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.*;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 /**
  *
@@ -27,8 +28,20 @@ public class Principal extends JFrame {
     JScrollBar scrollbar;
     JList<Object> listaArquivos;
     JButton botao;
-
+    JButton botaoAbrirArquivo;
+    JButton botaoSair;
     public Principal() {
+    	super("HNTXT");
+    	
+    	try {
+    		/*
+    		 * Utilizando padrão de GUI do estilo Nimbus
+    		 */
+    		UIManager.setLookAndFeel(new NimbusLookAndFeel());  
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    	  	
         componentes();
     }
 
@@ -50,10 +63,10 @@ public class Principal extends JFrame {
 
         painel_centro = new JPanel();
         painel_centro.setSize(250, 250);
-
-        painel_cabecalho.setBackground(Color.GRAY);
-        painel_rodape.setBackground(Color.BLACK);
-        painel_centro.setBackground(Color.GREEN);
+        
+        painel_cabecalho.setBackground(Color.white);
+        painel_rodape.setBackground(Color.white);
+        painel_centro.setBackground(Color.WHITE);
 
         barra_ferramentas = new JToolBar("Barra de Ferramentas");
         
@@ -62,7 +75,12 @@ public class Principal extends JFrame {
         painel_cabecalho.add(BorderLayout.CENTER, barra_ferramentas);
 
         botao = new JButton("Salvar");
+        botaoAbrirArquivo = new JButton("Abrir Arquivo");
+        botaoSair = new JButton("Sair");
+        
+        barra_ferramentas.add(botaoAbrirArquivo);
         barra_ferramentas.add(botao);
+        barra_ferramentas.add(botaoSair);
         
         area_texto = new JTextArea();
         area_texto.setColumns(45);
