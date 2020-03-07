@@ -4,7 +4,7 @@ public class Teste {
 
 	public static void main(String[]args)
 	{
-		Arquivos arq = new Arquivos();
+		Arquivo arq = new Arquivo();
 		arq.lerArquivo();
 	}
 }

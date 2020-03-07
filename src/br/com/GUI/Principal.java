@@ -7,11 +7,15 @@ package br.com.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
-
+import br.com.Tratamento.Arquivo;
 /**
  *
  * @author ITAUTEC Criando um editor de texto em Java.
@@ -25,11 +29,16 @@ public class Principal extends JFrame {
     JToolBar barra_ferramentas;
     JTextArea area_texto;
     JTextArea area_titulo;
-    JScrollBar scrollbar;
+    JScrollPane scrollPane;
+    
     JList<Object> listaArquivos;
     JButton botao;
     JButton botaoAbrirArquivo;
     JButton botaoSair;
+    
+    
+    
+    
     public Principal() {
     	super("HNTXT");
     	
@@ -59,14 +68,16 @@ public class Principal extends JFrame {
          * mesmo que esteja dentro de um BorderLayout
          */
         
-        painel_rodape.setPreferredSize(new Dimension(250, 30));
+        painel_rodape.setPreferredSize(new Dimension(250, 10));
 
         painel_centro = new JPanel();
         painel_centro.setSize(250, 250);
         
         painel_cabecalho.setBackground(Color.white);
         painel_rodape.setBackground(Color.white);
-        painel_centro.setBackground(Color.WHITE);
+        
+        painel_centro.setLayout(new BorderLayout());
+        painel_centro.setBackground(Color.black);
 
         barra_ferramentas = new JToolBar("Barra de Ferramentas");
         
@@ -85,17 +96,23 @@ public class Principal extends JFrame {
         area_texto = new JTextArea();
         area_texto.setColumns(45);
         area_texto.setRows(10);
+        area_texto.setFont((new Font(Font.SANS_SERIF, Font.PLAIN, 11)));
         area_texto.setLineWrap(true);
+        area_texto.setWrapStyleWord(true);
         
         area_titulo = new JTextArea();
         area_titulo.setColumns(45);
         area_titulo.setRows(1);
         area_titulo.setLineWrap(true);
         
-        scrollbar = new JScrollBar();
-       
-        painel_centro.add(area_titulo);
-        painel_centro.add(area_texto);
+        scrollPane = new JScrollPane(area_texto);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        
+        painel_centro.add(BorderLayout.NORTH,area_titulo);
+        
+        painel_centro.add(BorderLayout.CENTER,scrollPane);
+        
         
         
         super.getContentPane().add(BorderLayout.NORTH, painel_cabecalho);
@@ -105,8 +122,83 @@ public class Principal extends JFrame {
         
         super.setLocationRelativeTo(null);
         super.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        super.setSize(550,300);
+        super.pack();
         super.setLocationRelativeTo(null);
         super.setVisible(true);
+        
+        botaoAbrirArquivo.addMouseListener(new botaoAbrirArquivoMouseListener());
+        botaoSair.addMouseListener(new botaoSairArquivoMouseListener());
     }
+    
+    private class botaoAbrirArquivoMouseListener implements MouseListener {
+
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			
+			Arquivo arq = new Arquivo();
+			
+			area_texto.append(arq.lerArquivo());
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}}
+
+    private class botaoSairArquivoMouseListener implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			
+		 var escolha = JOptionPane.showInternalConfirmDialog(null, "Deseja realmente sair do programa ?");
+			if (escolha == JOptionPane.OK_OPTION) {
+				System.exit(0);
+			}
+			
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}}
 }

@@ -7,13 +7,23 @@ package br.com.Tratamento;
 
 
 import br.com.Modelo.Documento;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.io.StreamCorruptedException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.swing.*;
 import javax.swing.*;
@@ -21,13 +31,13 @@ import javax.swing.*;
  *
  * @author Neto_Santos
  */
-public class Arquivos extends JFrame {
+public class Arquivo extends JFrame {
 
 	private Documento documento;
 	private File file;
 	private ObjectOutputStream escritor;
 
-	public Arquivos(String nome, String conteudo) {
+	public Arquivo(String nome, String conteudo) {
 
 		this.file = new File(nome);
 
@@ -35,7 +45,7 @@ public class Arquivos extends JFrame {
 
 	}
 
-	public Arquivos(){}
+	public Arquivo(){}
 
 	public void gravarArquivo() {
 
@@ -59,27 +69,42 @@ public class Arquivos extends JFrame {
 
 	public String lerArquivo() {
 
-		if (JOptionPane.showConfirmDialog(this, "Deseja realizar esta operação?") == JOptionPane.OK_OPTION) {
-			System.out.println("Clickou em ok");
-		}
 		try {
-			
+
 			JFileChooser escolherArquivo = new JFileChooser();
-			
+
 			escolherArquivo.setDialogTitle("Escolha o arquivo");
 			escolherArquivo.showOpenDialog(null);
 			
-			String dados = escolherArquivo.getSelectedFile().getName().isEmpty()?"Vazio":"Contém algo";
-
-			if (!dados.isEmpty() && !dados.isBlank()) {
-				FileInputStream file_Entrada = new FileInputStream(dados);
-				ObjectInputStream entrada = new ObjectInputStream(file_Entrada);
-				dados =  entrada.readUTF();            
-				return dados;
+			/*
+			 * Obtém o caminho da pasta + o nome do arquivo com a sua extensão.
+			 * Ex: c:/user/desktop/teste.txt
+			 */
+			
+			String caminho = escolherArquivo.getSelectedFile().getAbsolutePath();
+			
+			FileReader file = new FileReader(caminho);
+			
+			BufferedReader bf = new BufferedReader(file);
+			
+			StringBuilder sb = new StringBuilder();
+			
+			
+			if (bf.ready()) {
+				
+				while (bf.ready()) {
+					
+					sb.append(bf.readLine());
+				}
 			}
+			
+			
+			return sb.toString();
 
+			
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.exit(0);
 		}
 
 		return null;
