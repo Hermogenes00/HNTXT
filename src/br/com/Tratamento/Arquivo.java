@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -35,7 +36,12 @@ public class Arquivo extends JFrame {
 
 	private Documento documento;
 	private File file;
-	private ObjectOutputStream escritor;
+	private String caminho;
+
+	public String getCaminho()
+	{
+		return this.caminho;
+	}
 
 	public Arquivo(String nome, String conteudo) {
 
@@ -47,25 +53,23 @@ public class Arquivo extends JFrame {
 
 	public Arquivo(){}
 
-	public void gravarArquivo() {
+	public void gravarArquivo(String local,String titulo, String conteudo) {
 
-		if (!file.exists()) {
+		try {
 
-			try {
+			FileWriter escritor = new FileWriter(local+".txt");
 
-				FileOutputStream arquivo = new FileOutputStream(documento.getNome() + ".txt");
+			escritor.write(conteudo);
 
-				escritor = new ObjectOutputStream(arquivo);
+			escritor.flush();
+			escritor.close();
 
-				escritor.writeUTF(documento.getArquivo().toString());
-				escritor.flush();
 
-			} catch (IOException e) {
-
-			}
+		} catch (IOException e) {
 
 		}
-	}
+		}
+
 
 	public String lerArquivo() {
 
@@ -75,33 +79,33 @@ public class Arquivo extends JFrame {
 
 			escolherArquivo.setDialogTitle("Escolha o arquivo");
 			escolherArquivo.showOpenDialog(null);
-			
+
 			/*
 			 * Obtém o caminho da pasta + o nome do arquivo com a sua extensão.
 			 * Ex: c:/user/desktop/teste.txt
 			 */
-			
-			String caminho = escolherArquivo.getSelectedFile().getAbsolutePath();
-			
+
+			caminho = escolherArquivo.getSelectedFile().getAbsolutePath();
+
 			FileReader file = new FileReader(caminho);
-			
+
 			BufferedReader bf = new BufferedReader(file);
-			
+
 			StringBuilder sb = new StringBuilder();
-			
-			
+
+
 			if (bf.ready()) {
-				
+
 				while (bf.ready()) {
-					
+
 					sb.append(bf.readLine());
 				}
 			}
-			
-			
+
+
 			return sb.toString();
 
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(0);
@@ -109,4 +113,8 @@ public class Arquivo extends JFrame {
 
 		return null;
 	}
+
+
 }
+
+

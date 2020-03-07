@@ -22,17 +22,18 @@ import br.com.Tratamento.Arquivo;
  */
 public class Principal extends JFrame {
 
-    //CriaÃ§Ã£o dos componentes
+    //Criação dos componentes
     JPanel painel_cabecalho;
     JPanel painel_centro;
     JPanel painel_rodape;
     JToolBar barra_ferramentas;
     JTextArea area_texto;
+    JTextArea texto_rodape;
     JTextArea area_titulo;
     JScrollPane scrollPane;
     
     JList<Object> listaArquivos;
-    JButton botao;
+    JButton botaoSalvar;
     JButton botaoAbrirArquivo;
     JButton botaoSair;
     
@@ -85,12 +86,12 @@ public class Principal extends JFrame {
         
         painel_cabecalho.add(BorderLayout.CENTER, barra_ferramentas);
 
-        botao = new JButton("Salvar");
+        botaoSalvar = new JButton("Salvar");
         botaoAbrirArquivo = new JButton("Abrir Arquivo");
         botaoSair = new JButton("Sair");
         
         barra_ferramentas.add(botaoAbrirArquivo);
-        barra_ferramentas.add(botao);
+        barra_ferramentas.add(botaoSalvar);
         barra_ferramentas.add(botaoSair);
         
         area_texto = new JTextArea();
@@ -105,6 +106,8 @@ public class Principal extends JFrame {
         area_titulo.setRows(1);
         area_titulo.setLineWrap(true);
         
+        texto_rodape = new JTextArea();
+        
         scrollPane = new JScrollPane(area_texto);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -113,7 +116,9 @@ public class Principal extends JFrame {
         
         painel_centro.add(BorderLayout.CENTER,scrollPane);
         
-        
+        painel_rodape.setPreferredSize(new Dimension(super.getWidth(),25));
+        painel_rodape.setLayout(new BorderLayout());;
+        painel_rodape.add(BorderLayout.CENTER,texto_rodape);
         
         super.getContentPane().add(BorderLayout.NORTH, painel_cabecalho);
         super.getContentPane().add(BorderLayout.CENTER, painel_centro);
@@ -128,6 +133,7 @@ public class Principal extends JFrame {
         
         botaoAbrirArquivo.addMouseListener(new botaoAbrirArquivoMouseListener());
         botaoSair.addMouseListener(new botaoSairArquivoMouseListener());
+        botaoSalvar.addMouseListener(new botaoSalvarArquivoMouseListener());
     }
     
     private class botaoAbrirArquivoMouseListener implements MouseListener {
@@ -139,6 +145,9 @@ public class Principal extends JFrame {
 			Arquivo arq = new Arquivo();
 			
 			area_texto.append(arq.lerArquivo());
+			
+			texto_rodape.append(arq.getCaminho());
+			texto_rodape.setEnabled(false);
 		}
 
 		@Override
@@ -175,6 +184,46 @@ public class Principal extends JFrame {
 				System.exit(0);
 			}
 			
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}}
+
+    private class botaoSalvarArquivoMouseListener implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+
+			Arquivo arq = new Arquivo();
+			JFileChooser f = new JFileChooser();
+			f.setDialogTitle("Salvar em:");
+			f.setName(area_titulo.getText());
+			
+			f.showOpenDialog(null);
+			String caminho = f.getSelectedFile().getAbsolutePath();
+			arq.gravarArquivo(caminho, area_titulo.getText(), area_texto.getText());
 			
 		}
 
