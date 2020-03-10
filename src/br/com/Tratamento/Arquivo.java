@@ -68,48 +68,41 @@ public class Arquivo extends JFrame {
 		} catch (IOException e) {
 
 		}
-		}
+	}
 
 
-	public String lerArquivo() {
+	public String lerArquivo(String caminho) {
 
 		try {
 
-			JFileChooser escolherArquivo = new JFileChooser();
+							/*
+				 * Obtém o caminho da pasta + o nome do arquivo com a sua extensão.
+				 * Ex: c:/user/desktop/teste.txt
+				 */
+				FileReader file = new FileReader(caminho);
 
-			escolherArquivo.setDialogTitle("Escolha o arquivo");
-			escolherArquivo.showOpenDialog(null);
+				BufferedReader bf = new BufferedReader(file);
 
-			/*
-			 * Obtém o caminho da pasta + o nome do arquivo com a sua extensão.
-			 * Ex: c:/user/desktop/teste.txt
-			 */
-
-			caminho = escolherArquivo.getSelectedFile().getAbsolutePath();
-
-			FileReader file = new FileReader(caminho);
-
-			BufferedReader bf = new BufferedReader(file);
-
-			StringBuilder sb = new StringBuilder();
+				StringBuilder sb = new StringBuilder();
 
 
-			if (bf.ready()) {
+				if (bf.ready()) {
 
-				while (bf.ready()) {
+					while (bf.ready()) {
 
-					sb.append(bf.readLine());
+						sb.append(bf.readLine());
+					}
 				}
-			}
 
 
-			return sb.toString();
+				return sb.toString();
 
-
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.exit(0);
 		}
+		catch (IOException e) {
+			e.printStackTrace();
+
+		}
+
 
 		return null;
 	}

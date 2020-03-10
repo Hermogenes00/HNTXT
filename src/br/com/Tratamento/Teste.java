@@ -5,6 +5,6 @@ public class Teste {
 	public static void main(String[]args)
 	{
 		Arquivo arq = new Arquivo();
-		arq.lerArquivo();
+		//arq.lerArquivo();
 	}
 }

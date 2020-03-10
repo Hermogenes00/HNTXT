@@ -7,12 +7,16 @@ package br.com.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 
+import javax.sound.midi.Soundbank;
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import br.com.Tratamento.Arquivo;
@@ -36,7 +40,6 @@ public class Principal extends JFrame {
     JButton botaoSalvar;
     JButton botaoAbrirArquivo;
     JButton botaoSair;
-    
     
     
     
@@ -87,8 +90,13 @@ public class Principal extends JFrame {
         painel_cabecalho.add(BorderLayout.CENTER, barra_ferramentas);
 
         botaoSalvar = new JButton("Salvar");
+        botaoSalvar.setIcon(new ImageIcon(getClass().getResource("/imagens/salvar.png")));
+        
         botaoAbrirArquivo = new JButton("Abrir Arquivo");
+        botaoAbrirArquivo.setIcon(new ImageIcon(getClass().getResource("/imagens/abrir.png")));
+        
         botaoSair = new JButton("Sair");
+        botaoSair.setIcon(new ImageIcon(getClass().getResource("/imagens/sair.png")));
         
         barra_ferramentas.add(botaoAbrirArquivo);
         barra_ferramentas.add(botaoSalvar);
@@ -107,6 +115,7 @@ public class Principal extends JFrame {
         area_titulo.setLineWrap(true);
         
         texto_rodape = new JTextArea();
+        texto_rodape.setEnabled(false);
         
         scrollPane = new JScrollPane(area_texto);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -142,12 +151,28 @@ public class Principal extends JFrame {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			
-			Arquivo arq = new Arquivo();
+			JFileChooser dialogo = new JFileChooser();
 			
-			area_texto.append(arq.lerArquivo());
+			int opcao = dialogo.showOpenDialog(null);
 			
-			texto_rodape.append(arq.getCaminho());
-			texto_rodape.setEnabled(false);
+			if (opcao == dialogo.OPEN_DIALOG) {
+				
+				String caminho = dialogo.getSelectedFile().getAbsolutePath();
+				Arquivo arq = new Arquivo();
+				
+				area_titulo.setText("");
+				String titulo = dialogo.getSelectedFile().getName().split(".txt")[0];
+				area_titulo.append(titulo);
+				
+				area_texto.setText("");
+				area_texto.append(arq.lerArquivo(caminho));
+				
+				texto_rodape.setText("");
+				texto_rodape.append(caminho);
+				
+			}
+			
+			
 		}
 
 		@Override
@@ -216,14 +241,28 @@ public class Principal extends JFrame {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 
-			Arquivo arq = new Arquivo();
-			JFileChooser f = new JFileChooser();
-			f.setDialogTitle("Salvar em:");
-			f.setName(area_titulo.getText());
 			
-			f.showOpenDialog(null);
-			String caminho = f.getSelectedFile().getAbsolutePath();
-			arq.gravarArquivo(caminho, area_titulo.getText(), area_texto.getText());
+			Arquivo arq = new Arquivo();
+			JFileChooser dialogo = new JFileChooser();
+			System.out.println("Nome do arquivo: "+area_titulo.getText());
+			dialogo.setDialogTitle("Salvar em:");
+			
+			//String caminho = dialogo.getSelectedFile().getAbsolutePath();
+			
+			dialogo.setSelectedFile(new File("c:\\"+area_titulo.getText()));
+			
+			int escolha = dialogo.showSaveDialog(null);
+			
+			if (escolha == dialogo.APPROVE_OPTION) {
+				
+				arq.gravarArquivo(dialogo.getSelectedFile().getAbsolutePath(), dialogo.getName(), area_texto.getText());
+				
+				texto_rodape.setText("");
+				texto_rodape.append("Salvo em:");
+				texto_rodape.append(dialogo.getSelectedFile().getPath());
+				
+			}
+			
 			
 		}
 
