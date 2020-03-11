@@ -9,19 +9,19 @@ GUI em melhoria
 
 
 <h3>Tela Inical </h3>
-<img src ="src/imagens/hntxto_lendo_arquivo.png"/>
+<img src ="src/imagens/hntxt_lendo_arquivo.png"/>
 
 <h3>Selecionando arquivo a ser aberto </h3>
-<img src ="src/imagens/hntxto_abrir.png">
+<img src ="src/imagens/hntxt_abrir.png">
 
 <h3>Escolha de local para salvar arquivo </h3>
 
 <p>Assim como no bloco de notas do windows, a escolha aparece somente uma vez, nas outras vezes que o usuário for salvar o aquivo, será salvo no caminho já predefinido</p>
 
-<img src ="src/imagens/hntxto_salva_em.png">
+<img src ="src/imagens/hntxt_salva_em.png">
 
 <h3>Confirmação para sair </h3>
-<img src ="src/imagens/hntxto_sair.png">
+<img src ="src/imagens/hntxt_sair.png">
 
 <hr/>
 <p> Desenvolvido por: Hermógenes Neto</p>
