@@ -53,11 +53,12 @@ public class Arquivo extends JFrame {
 
 	public Arquivo(){}
 
-	public void gravarArquivo(String local,String titulo, String conteudo) {
+	public void gravarArquivo(String local,String conteudo) {
 
 		try {
 
-			FileWriter escritor = new FileWriter(local+".txt");
+			String nome = local.replace(".txt", "");
+			FileWriter escritor = new FileWriter(nome+".txt");
 
 			escritor.write(conteudo);
 
@@ -70,32 +71,31 @@ public class Arquivo extends JFrame {
 		}
 	}
 
-
 	public String lerArquivo(String caminho) {
 
 		try {
 
-							/*
-				 * Obtém o caminho da pasta + o nome do arquivo com a sua extensão.
-				 * Ex: c:/user/desktop/teste.txt
-				 */
-				FileReader file = new FileReader(caminho);
+			/*
+			 * Obtém o caminho da pasta + o nome do arquivo com a sua extensão.
+			 * Ex: c:/user/desktop/teste.txt
+			 */
+			FileReader file = new FileReader(caminho);
 
-				BufferedReader bf = new BufferedReader(file);
+			BufferedReader bf = new BufferedReader(file);
 
-				StringBuilder sb = new StringBuilder();
+			StringBuilder sb = new StringBuilder();
 
 
-				if (bf.ready()) {
+			if (bf.ready()) {
 
-					while (bf.ready()) {
+				while (bf.ready()) {
 
-						sb.append(bf.readLine());
-					}
+					sb.append(bf.readLine());
 				}
+			}
 
 
-				return sb.toString();
+			return sb.toString();
 
 		}
 		catch (IOException e) {
@@ -107,7 +107,13 @@ public class Arquivo extends JFrame {
 		return null;
 	}
 
+	public boolean existe(String caminhoArquivo) {
+		
+		File arquivo = new File(caminhoArquivo+".txt");
+		
+		return arquivo.exists();
 
+	}
 }
 
 
