@@ -18,7 +18,7 @@ GUI em melhoria
 
 <p>Assim como no bloco de notas do windows, a escolha aparece somente uma vez, nas outras vezes que o usuário for salvar o aquivo, será salvo no caminho já predefinido</p>
 
-<img src ="src/imagens/hntxt_salva_em.png">
+<img src ="src/imagens/hntxt_salvar_em.png">
 
 <h3>Confirmação para sair </h3>
 <img src ="src/imagens/hntxt_sair.png">
